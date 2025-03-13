@@ -1,3 +1,7 @@
+using Company.Day02.BLL.Repositories;
+using Company.Day02.DAL.Data.Contexts;
+using Microsoft.EntityFrameworkCore;
+
 namespace Company.Day02.PL
 {
     public class Program
@@ -8,6 +12,12 @@ namespace Company.Day02.PL
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddScoped<IDepartmentRepository ,  DepartmentRepository>(); // Allow DI For DepartmentRepository
+
+            builder.Services.AddDbContext<CompanyDbContext>(options =>
+            {
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+            });
 
             var app = builder.Build();
 
