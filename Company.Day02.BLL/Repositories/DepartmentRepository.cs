@@ -33,9 +33,9 @@ namespace Company.Day02.BLL.Repositories
 
         public int Add(Department Model)
         {
-            using CompanyDbContext context = new CompanyDbContext();
-            context.Departments.Add(Model);
-            return context.SaveChanges();
+            
+            _context.Departments.Add(Model);
+            return _context.SaveChanges();
         }
 
 
