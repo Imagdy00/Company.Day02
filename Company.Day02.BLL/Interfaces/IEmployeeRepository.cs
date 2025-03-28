@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace Company.Day02.BLL.Interfaces
 {
-    public interface IEmployeeRepository
+    public interface IEmployeeRepository : IGenericRepository<Employee>
     {
-        IEnumerable<Employee> GetAll();
-        Employee? Get(int id);
+        //IEnumerable<Employee> GetAll();
+        //Employee? Get(int id);
 
-        int Add(Employee Model);
-        int Update(Employee Model);
-        int Delete(Employee Model);
+        //int Add(Employee Model);
+        //int Update(Employee Model);
+        //int Delete(Employee Model);
     }
 }
