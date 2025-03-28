@@ -9,44 +9,56 @@ using System.Threading.Tasks;
 
 namespace Company.Day02.BLL.Repositories
 {
-    public class EmployeeRepository : IEmployeeRepository
+    public class EmployeeRepository : GenericRepository<Employee> , IEmployeeRepository
     {
-        private readonly CompanyDbContext _context;
 
-        public EmployeeRepository(CompanyDbContext context)
+        public EmployeeRepository(CompanyDbContext context) : base(context)
         {
-            _context = context;
+
         }
+    
+    
 
-        public IEnumerable<Employee> GetAll()
-        {
-            return _context.Employees.ToList();
-        }
 
-        public Employee? Get(int id)
-        {
-            return _context.Employees.Find(id);
-        }
-        public int Add(Employee Model)
-        {
-             _context.Employees.Add(Model);  
 
-            return _context.SaveChanges();
-        }
 
-        public int Update(Employee Model)
-        {
-            _context.Employees.Update(Model);
 
-            return _context.SaveChanges();
-        }
+        //private readonly CompanyDbContext _context;
 
-        public int Delete(Employee Model)
-        {
-            _context.Employees.Remove(Model);
+        //public EmployeeRepository(CompanyDbContext context)
+        //{
+        //    _context = context;
+        //}
 
-            return _context.SaveChanges();
-        }
+        //public IEnumerable<Employee> GetAll()
+        //{
+        //    return _context.Employees.ToList();
+        //}
+
+        //public Employee? Get(int id)
+        //{
+        //    return _context.Employees.Find(id);
+        //}
+        //public int Add(Employee Model)
+        //{
+        //     _context.Employees.Add(Model);  
+
+        //    return _context.SaveChanges();
+        //}
+
+        //public int Update(Employee Model)
+        //{
+        //    _context.Employees.Update(Model);
+
+        //    return _context.SaveChanges();
+        //}
+
+        //public int Delete(Employee Model)
+        //{
+        //    _context.Employees.Remove(Model);
+
+        //    return _context.SaveChanges();
+        //}
 
        
 
