@@ -1,4 +1,4 @@
-﻿using Company.Day02.BLL.Repositories;
+﻿using Company.Day02.BLL.Interfaces;
 using Company.Day02.DAL.Models;
 using Company.Day02.PL.Dtos;
 using Microsoft.AspNetCore.Mvc;
