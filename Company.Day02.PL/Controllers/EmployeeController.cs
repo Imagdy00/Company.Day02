@@ -84,6 +84,7 @@ namespace Company.Day02.PL.Controllers
 
 
 
+
                 var employee = _mapper.Map<Employee>(model);
                 await _unitOfWork.EmployeeRepository.AddAsync(employee);
                 //_unitOfWork.EmployeeRepository.Update(employee);
