@@ -15,8 +15,14 @@ namespace Company.Day02.PL
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
-            builder.Services.AddScoped<IDepartmentRepository ,  DepartmentRepository>(); // Allow DI For DepartmentRepository
-            builder.Services.AddScoped<IEmployeeRepository ,  EmployeeRepository>(); // Allow DI For EmployeeRepository
+            
+            
+            //builder.Services.AddScoped<IDepartmentRepository ,  DepartmentRepository>(); // Allow DI For DepartmentRepository
+
+
+            //builder.Services.AddScoped<IEmployeeRepository ,  EmployeeRepository>(); // Allow DI For EmployeeRepository
+
+            builder.Services.AddScoped<IUnitOfWork , UnitOfWork>();
 
             builder.Services.AddDbContext<CompanyDbContext>(options =>
             {

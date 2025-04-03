@@ -8,8 +8,8 @@ namespace Company.Day02.PL.Mapping
     {
         public EmployeeProfile()
         {
-            CreateMap<CreateEmployeeDto, Employee>()
-                .ForMember(d => d.Name , o => o.MapFrom(s => $"{s.EmpName} Hello "));
+            CreateMap<CreateEmployeeDto, Employee>();
+                /*.ForMember(d => d.Name , o => o.MapFrom(s => $"{s.Name}"));*/
             CreateMap<Employee , CreateEmployeeDto>();
 
         }
