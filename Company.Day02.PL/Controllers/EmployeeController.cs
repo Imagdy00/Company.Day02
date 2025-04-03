@@ -1,4 +1,5 @@
-﻿using Company.Day02.BLL.Interfaces;
+﻿using AutoMapper;
+using Company.Day02.BLL.Interfaces;
 using Company.Day02.DAL.Models;
 using Company.Day02.PL.Dtos;
 using Microsoft.AspNetCore.Mvc;
@@ -8,17 +9,46 @@ namespace Company.Day02.PL.Controllers
     public class EmployeeController : Controller
     {
         private readonly IEmployeeRepository _employeeRepository;
+        private readonly IDepartmentRepository _departmentRepository;
+        private readonly IMapper _mapper;
 
-        public EmployeeController (IEmployeeRepository employeeRepository)
+        public EmployeeController (
+            IEmployeeRepository employeeRepository , 
+            IDepartmentRepository departmentRepository,
+            IMapper mapper)
         {
             _employeeRepository = employeeRepository;
+            _departmentRepository = departmentRepository;
+            _mapper = mapper;
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult Index(string? SearchInput)
         {
+            IEnumerable<Employee> employees;
+            if (string.IsNullOrEmpty(SearchInput))
+            {
+                 employees = _employeeRepository.GetAll();
+            }
+            else
+            {
+                 employees = _employeeRepository.GetByName(SearchInput);
+            }
 
-            var employees = _employeeRepository.GetAll();
+
+            
+            //Dictionary : Storage of view
+            //1- ViewData : transfer extra information from controller (Action) to view
+
+            //ViewData["message"] = "hello from ViewData";
+
+
+            //2- ViewBag : transfer extra information from controller (Action) to view
+
+            //ViewBag.Message = "Hello from ViewBag";
+
+            //1 , 2  are inherited from controller class
+
             return View(employees);
         }
 
@@ -27,6 +57,8 @@ namespace Company.Day02.PL.Controllers
         [HttpGet]
         public IActionResult Create()
         {
+            var departments  = _departmentRepository.GetAll();
+            ViewData["departments"] = departments;
             return View();
 
         }
@@ -37,23 +69,27 @@ namespace Company.Day02.PL.Controllers
         {
             if (ModelState.IsValid)
             {
-                var employee = new Employee()
-                {
-                    Name = model.Name,
-                    Address = model.Address,
-                    Age = model.Age,
-                    CreateAt = model.CreateAt,
-                    HiringDate = model.HiringDate,
-                    Email = model.Email,
-                    IsActive = model.IsActive,
-                    IsDeleted = model.IsDeleted,
-                    Phone = model.Phone,
-                    Salary = model.Salary,
-                };
+                //Manual Mapping
+                //var employee = new Employee()
+                //{
+                //    Name = model.Name,
+                //    Address = model.Address,
+                //    Age = model.Age,
+                //    CreateAt = model.CreateAt,
+                //    HiringDate = model.HiringDate,
+                //    Email = model.Email,
+                //    IsActive = model.IsActive,
+                //    IsDeleted = model.IsDeleted,
+                //    Phone = model.Phone,
+                //    Salary = model.Salary,
+                //    DepartmentId = model.DepartmentId,
+                //};
+                var employee = _mapper.Map<Employee>(model);
                 var count = _employeeRepository.Add(employee);
 
                 if (count > 0)
                 {
+                    TempData["Message"] = "Employee is Created";
                     return RedirectToAction(nameof(Index));
                 }
             }
@@ -68,30 +104,36 @@ namespace Company.Day02.PL.Controllers
             if (id is null) return BadRequest("Invalid Id");
             var employee = _employeeRepository.Get(id.Value);
             if (employee is null) return NotFound(new { StatusCode = 404, message = $"employee: with id {id} is not found" });
+
+            
             return View(viewName, employee);
+
         }
 
 
         [HttpGet]
         public IActionResult Edit(int? id)
         {
+            var departments = _departmentRepository.GetAll();
+            ViewData["departments"] = departments;
             if (id is null) return BadRequest("Invalid Id");
             var employee = _employeeRepository.Get(id.Value);
             if (employee is null) return NotFound(new { StatusCode = 404, message = $"department: with id {id} is not found" });
-            var employeeDto = new CreateEmployeeDto()
-            {
-                Name = employee.Name,
-                Address = employee.Address,
-                Age = employee.Age,
-                CreateAt = employee.CreateAt,
-                HiringDate = employee.HiringDate,
-                Email = employee.Email,
-                IsActive = employee.IsActive,
-                IsDeleted = employee.IsDeleted,
-                Phone = employee.Phone,
-                Salary = employee.Salary,
-            };
-            return View(employeeDto);
+            //var employeeDto = new CreateEmployeeDto()
+            //{
+            //    Name = employee.Name,
+            //    Address = employee.Address,
+            //    Age = employee.Age,
+            //    CreateAt = employee.CreateAt,
+            //    HiringDate = employee.HiringDate,
+            //    Email = employee.Email,
+            //    IsActive = employee.IsActive,
+            //    IsDeleted = employee.IsDeleted,
+            //    Phone = employee.Phone,
+            //    Salary = employee.Salary,
+            //};
+            var dto = _mapper.Map<CreateEmployeeDto>(employee);
+            return View(dto);
         }
 
 
@@ -109,7 +151,7 @@ namespace Company.Day02.PL.Controllers
                 var employee = new Employee()
                 {
                     Id = id ,
-                    Name = model.Name,
+                    Name = model.EmpName,
                     Address = model.Address,
                     Age = model.Age,
                     CreateAt = model.CreateAt,
