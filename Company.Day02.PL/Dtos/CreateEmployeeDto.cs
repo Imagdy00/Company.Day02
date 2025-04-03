@@ -6,7 +6,7 @@ namespace Company.Day02.PL.Dtos
     public class CreateEmployeeDto
     {
         [Required(ErrorMessage = "Name is required")]
-        public string Name { get; set; }
+        public string EmpName { get; set; }
 
         [Range(22,60 , ErrorMessage = "Age must be between 22 and 60")]
         public int? Age { get; set; }
@@ -28,6 +28,8 @@ namespace Company.Day02.PL.Dtos
         [DisplayName("Hiring Date")]
         public DateTime HiringDate { get; set; }
         [DisplayName("Date Of Creation")]
-        public DateTime CreateAt { get; set; }
+        public DateTime CreateAt { get; set; } = DateTime.UtcNow;
+
+        public int? DepartmentId { get; set; }
     }
 }

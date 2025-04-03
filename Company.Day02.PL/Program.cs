@@ -1,6 +1,8 @@
 using Company.Day02.BLL.Interfaces;
 using Company.Day02.BLL.Repositories;
 using Company.Day02.DAL.Data.Contexts;
+using Company.Day02.PL.Mapping;
+using Company.Day02.PL.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace Company.Day02.PL
@@ -20,6 +22,19 @@ namespace Company.Day02.PL
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
+
+            // if you have more than one profile you should allow dependancy injection for each one 
+
+            //builder.Services.AddAutoMapper(typeof(EmployeeProfile));
+            builder.Services.AddAutoMapper(M => M.AddProfile(new EmployeeProfile()));
+            //these all three function to allow dependancy injection for specific services : they are different in life time 
+            //builder.Services.AddScoped(); // create object life time per request
+            //builder.Services.AddTransient(); // create object life time per operation 
+            //builder.Services.AddSingleton(); // create object life time per application
+
+            builder.Services.AddScoped<IScopedService, ScopedService>(); // per request
+            builder.Services.AddTransient<ITransentService , TransentService>(); // per operation
+            builder.Services.AddSingleton<ISingletonService , Singletonservice>();//per application 
 
             var app = builder.Build();
 

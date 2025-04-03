@@ -15,6 +15,8 @@ namespace Company.Day02.DAL.Models
 
         public DateTime CreateAt { get; set; }
 
+        public List<Employee> Employees { get; set; }
+
 
     }
 }
