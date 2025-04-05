@@ -3,11 +3,13 @@ using Company.Day02.BLL.Interfaces;
 using Company.Day02.DAL.Models;
 using Company.Day02.PL.Dtos;
 using Company.Day02.PL.Healpers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Reflection.Metadata;
 
 namespace Company.Day02.PL.Controllers
 {
+    [Authorize]
     public class EmployeeController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;

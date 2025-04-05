@@ -1,4 +1,6 @@
 ﻿using Company.Day02.DAL.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Company.Day02.DAL.Data.Contexts
 {
-    public class CompanyDbContext : DbContext
+    public class CompanyDbContext : IdentityDbContext<AppUser>
     {
         public CompanyDbContext(DbContextOptions <CompanyDbContext> options) : base(options)
         {
@@ -20,8 +22,7 @@ namespace Company.Day02.DAL.Data.Contexts
         //    optionsBuilder.UseSqlServer("Server = . ; Database = CompanyG02 ;  Trusted_Connection = True ; TrustServerCertificate = True ;  ");
         //}
 
-        public DbSet<Department> Departments { get; set; }
-        public DbSet<Employee> Employees { get; set; }
+        
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -29,5 +30,12 @@ namespace Company.Day02.DAL.Data.Contexts
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
             base.OnModelCreating(modelBuilder);
         }
+
+
+        public DbSet<Department> Departments { get; set; }
+        public DbSet<Employee> Employees { get; set; }
+        
+
+
     }
 }

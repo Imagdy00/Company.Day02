@@ -1,11 +1,13 @@
 ﻿using Company.Day02.BLL.Interfaces;
 using Company.Day02.DAL.Models;
 using Company.Day02.PL.Dtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Company.Day02.PL.Controllers
 {
+    [Authorize]
     public class DepartmentController : Controller
     {
         //private readonly IDepartmentRepository _departmentrepository;
