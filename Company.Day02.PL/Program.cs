@@ -1,9 +1,12 @@
 using Company.Day02.BLL.Interfaces;
 using Company.Day02.BLL.Repositories;
 using Company.Day02.DAL.Data.Contexts;
+using Company.Day02.DAL.Models;
 using Company.Day02.PL.Mapping;
 using Company.Day02.PL.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Principal;
 
 namespace Company.Day02.PL
 {
@@ -42,6 +45,17 @@ namespace Company.Day02.PL
             builder.Services.AddTransient<ITransentService , TransentService>(); // per operation
             builder.Services.AddSingleton<ISingletonService , Singletonservice>();//per application 
 
+            builder.Services.AddIdentity<AppUser, IdentityRole>()
+                .AddEntityFrameworkStores<CompanyDbContext>();
+
+
+            builder.Services.ConfigureApplicationCookie(config =>
+            {
+                config.LoginPath = "/Account/SignIn";
+
+            });
+
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -57,7 +71,8 @@ namespace Company.Day02.PL
 
             app.UseRouting();
 
-            
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.MapControllerRoute(
                 name: "default",
