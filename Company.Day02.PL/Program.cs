@@ -46,7 +46,8 @@ namespace Company.Day02.PL
             builder.Services.AddSingleton<ISingletonService , Singletonservice>();//per application 
 
             builder.Services.AddIdentity<AppUser, IdentityRole>()
-                .AddEntityFrameworkStores<CompanyDbContext>();
+                .AddEntityFrameworkStores<CompanyDbContext>()
+                .AddDefaultTokenProviders();
 
 
             builder.Services.ConfigureApplicationCookie(config =>
@@ -54,6 +55,7 @@ namespace Company.Day02.PL
                 config.LoginPath = "/Account/SignIn";
 
             });
+
 
 
             var app = builder.Build();
